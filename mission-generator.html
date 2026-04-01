@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🕵️ 臥底問卷產生器</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4f0; color: #1a1a1a; min-height: 100vh; }
+.container { max-width: 640px; margin: 0 auto; padding: 24px 16px 56px; }
+.header { text-align: center; margin-bottom: 28px; }
+.header h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+.header p { font-size: 13px; color: #888; }
+.card { background: white; border-radius: 14px; padding: 18px; margin-bottom: 14px; border: 1px solid #e8e7e3; }
+.card-title { font-size: 14px; font-weight: 600; margin-bottom: 14px; }
+.input-row { display: flex; gap: 8px; margin-bottom: 14px; }
+input[type=text], textarea { border: 1.5px solid #e8e7e3; border-radius: 8px; padding: 10px 14px; font-size: 14px; outline: none; font-family: inherit; }
+input[type=text] { flex: 1; }
+input[type=text]:focus, textarea:focus { border-color: #1D9E75; }
+.btn { border: none; border-radius: 8px; padding: 10px 16px; font-size: 14px; cursor: pointer; font-weight: 500; transition: all .15s; }
+.btn-primary { background: #1D9E75; color: white; }
+.btn-primary:hover { background: #0F6E56; }
+.btn-secondary { background: #f0efe9; color: #444; }
+.btn-secondary:hover { background: #e0dfd9; }
+.btn-full { width: 100%; padding: 13px; font-size: 15px; }
+.btn-sm { padding: 5px 12px; font-size: 12px; border-radius: 6px; }
+.btn-icon { width: 28px; height: 28px; border-radius: 50%; border: none; background: #f5f4f0; color: #aaa; cursor: pointer; font-size: 14px; flex-shrink: 0; }
+.btn-icon:hover { background: #fce9e9; color: #c0392b; }
+.member-item { display: flex; align-items: center; gap: 8px; padding: 9px 0; border-bottom: 1px solid #f5f4f0; }
+.member-item:last-child { border-bottom: none; }
+.member-name { flex: 1; font-size: 14px; font-weight: 500; }
+.pastor-chip { font-size: 10px; background: #FAEEDA; color: #854F0B; padding: 2px 7px; border-radius: 20px; }
+.btn-toggle { font-size: 11px; padding: 5px 11px; border-radius: 6px; border: 1.5px solid #e8e7e3; background: white; cursor: pointer; color: #666; white-space: nowrap; }
+.btn-toggle.on { border-color: #BA7517; background: #FAEEDA; color: #854F0B; }
+.empty-hint { text-align: center; padding: 28px 16px; color: #aaa; font-size: 13px; }
+.empty-hint .icon { font-size: 28px; margin-bottom: 8px; }
+.warning { background: #FAEEDA; border-radius: 8px; padding: 9px 13px; font-size: 12px; color: #854F0B; margin-bottom: 12px; line-height: 1.6; }
+.name-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.name-tab { padding: 7px 14px; border-radius: 20px; border: 1.5px solid #e8e7e3; font-size: 13px; cursor: pointer; background: white; color: #444; transition: all .15s; }
+.name-tab:hover { border-color: #1D9E75; }
+.name-tab.active { background: #1D9E75; border-color: #1D9E75; color: white; }
+.name-tab.is-pastor { border-color: #EF9F27; }
+.name-tab.is-pastor.active { background: #BA7517; border-color: #BA7517; }
+.section-divider { display: flex; align-items: center; gap: 10px; margin: 20px 0 14px; }
+.sd-line { flex: 1; height: 1px; background: #f0efe9; }
+.sd-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #bbb; white-space: nowrap; }
+.mc-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+.mc-title { font-size: 16px; font-weight: 600; }
+.mc-sub { font-size: 12px; color: #888; margin-top: 3px; }
+.mc-seal { font-size: 11px; background: #f0efe9; color: #888; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+.tb { border-radius: 10px; padding: 13px; margin-bottom: 10px; border: 1px solid; }
+.tb:last-of-type { margin-bottom: 0; }
+.tb-top { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.tb-label { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.tb-name { font-size: 15px; font-weight: 600; flex: 1; }
+.tb-pts { font-size: 10px; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+.q-row { display: flex; gap: 9px; margin-bottom: 7px; font-size: 13px; line-height: 1.6; align-items: flex-start; }
+.q-row:last-of-type { margin-bottom: 8px; }
+.q-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 7px; }
+.faith-mark { font-size: 10px; opacity: 0.65; }
+.ban { font-size: 11px; padding: 5px 9px; border-radius: 6px; line-height: 1.6; }
+.ban-tag { font-size: 10px; padding: 1px 6px; border-radius: 4px; margin: 1px; }
+.tb-teal { background: #f0fdf7; border-color: #9FE1CB; }
+.tb-teal .tb-label { color: #1D9E75; } .tb-teal .tb-name { color: #085041; }
+.tb-teal .q-dot { background: #1D9E75; } .tb-teal .tb-pts { background: #E1F5EE; color: #0F6E56; }
+.tb-teal .ban { background: #d4f0e6; color: #0F6E56; } .tb-teal .ban-tag { background: #9FE1CB; color: #04342C; }
+.tb-purple { background: #f5f4ff; border-color: #CECBF6; }
+.tb-purple .tb-label { color: #7F77DD; } .tb-purple .tb-name { color: #26215C; }
+.tb-purple .q-dot { background: #7F77DD; } .tb-purple .tb-pts { background: #EEEDFE; color: #534AB7; }
+.tb-purple .ban { background: #e0defb; color: #534AB7; } .tb-purple .ban-tag { background: #CECBF6; color: #26215C; }
+.tb-blue { background: #f0f7ff; border-color: #B5D4F4; }
+.tb-blue .tb-label { color: #378ADD; } .tb-blue .tb-name { color: #042C53; }
+.tb-blue .q-dot { background: #378ADD; } .tb-blue .tb-pts { background: #E6F1FB; color: #185FA5; }
+.tb-blue .ban { background: #d0e8f9; color: #185FA5; } .tb-blue .ban-tag { background: #B5D4F4; color: #042C53; }
+.tb-amber { background: #fffbf0; border-color: #FAC775; }
+.tb-amber .tb-label { color: #BA7517; } .tb-amber .tb-name { color: #412402; }
+.tb-amber .q-dot { background: #EF9F27; } .tb-amber .tb-pts { background: #FAEEDA; color: #854F0B; }
+.tb-amber .ban { background: #fce8c3; color: #854F0B; } .tb-amber .ban-tag { background: #FAC775; color: #412402; }
+
+/* Verse blocks */
+.verse-send { background: #f0fdf7; border: 1.5px solid #5DCAA5; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
+.vs-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.vs-icon { font-size: 17px; }
+.vs-title { font-size: 13px; font-weight: 600; color: #085041; flex: 1; }
+.vs-pts { font-size: 10px; background: #E1F5EE; color: #0F6E56; padding: 3px 9px; border-radius: 20px; }
+.vs-target { font-size: 13px; color: #1D9E75; margin-bottom: 12px; }
+.vs-target strong { font-size: 15px; color: #085041; }
+.verse-box { background: white; border: 1px solid #9FE1CB; border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; }
+.verse-quote { font-size: 14px; line-height: 1.8; color: #1a1a1a; font-style: italic; margin-bottom: 4px; }
+.verse-ref { font-size: 12px; color: #1D9E75; font-weight: 500; }
+.btn-edit-verse { font-size: 11px; color: #888; border: 1px solid #e8e7e3; background: white; border-radius: 6px; padding: 4px 10px; cursor: pointer; display: inline-block; margin-bottom: 10px; }
+.btn-edit-verse:hover { border-color: #1D9E75; color: #1D9E75; }
+.verse-edit { display: none; }
+.verse-edit.open { display: block; }
+.verse-edit textarea { width: 100%; resize: vertical; min-height: 72px; margin-bottom: 6px; font-size: 13px; border-radius: 8px; }
+.verse-edit input { width: 100%; margin-bottom: 8px; font-size: 13px; border-radius: 8px; }
+.verse-edit-btns { display: flex; gap: 8px; }
+.vs-rule { font-size: 12px; color: #1D9E75; line-height: 1.6; padding-top: 10px; border-top: 1px solid #9FE1CB; }
+
+.verse-recv { background: #f5f4ff; border: 1.5px solid #CECBF6; border-radius: 12px; padding: 14px 16px; }
+.vr-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.vr-icon { font-size: 17px; }
+.vr-title { font-size: 13px; font-weight: 600; color: #26215C; }
+.vr-pts { font-size: 10px; background: #EEEDFE; color: #534AB7; padding: 3px 9px; border-radius: 20px; margin-left: auto; }
+.vr-body { font-size: 13px; color: #534AB7; line-height: 1.7; }
+.vr-body strong { font-size: 15px; color: #26215C; }
+.vr-rule { font-size: 12px; color: #7F77DD; margin-top: 8px; padding-top: 8px; border-top: 1px solid #CECBF6; line-height: 1.6; }
+
+.copy-btn { width: 100%; margin-top: 14px; padding: 12px; border: 1.5px solid #e8e7e3; border-radius: 10px; background: #f5f4f0; font-size: 13px; cursor: pointer; color: #555; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all .2s; }
+.copy-btn:hover { background: #ebe9e3; }
+.copy-btn.done { background: #E1F5EE; border-color: #9FE1CB; color: #0F6E56; }
+.actions { display: flex; gap: 8px; margin-top: 14px; }
+.actions .btn { flex: 1; }
+.score-row { display: flex; justify-content: space-between; font-size: 13px; padding: 8px 0; border-bottom: 1px solid #f5f4f0; }
+.score-row:last-child { border-bottom: none; }
+.sg { color: #1D9E75; font-weight: 600; }
+.sa { color: #BA7517; font-weight: 600; }
+.sr { color: #c0392b; font-weight: 600; }
+.hint { font-size: 12px; color: #aaa; margin-top: 10px; line-height: 1.7; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>🕵️ 臥底問卷產生器</h1>
+    <p>十八尖山長老教會學生團契</p>
+  </div>
+
+  <div id="step1">
+    <div class="card">
+      <div class="card-title">成員名單</div>
+      <div class="input-row">
+        <input type="text" id="name-input" placeholder="輸入名字，按 Enter 新增" maxlength="10">
+        <button class="btn btn-primary" onclick="addMember()">新增</button>
+      </div>
+      <div id="member-list"><div class="empty-hint"><div class="icon">👥</div>先新增成員</div></div>
+    </div>
+    <div id="gen-area" style="display:none">
+      <div class="warning" id="warn-msg" style="display:none"></div>
+      <button class="btn btn-primary btn-full" onclick="generate()">✨ 生成每人的任務卡</button>
+    </div>
+    <div class="card" style="margin-top:14px;">
+      <div class="card-title">計分方式</div>
+      <div class="score-row"><span>🕵️ 成功套出一筆資訊</span><span class="sg">+2 分</span></div>
+      <div class="score-row"><span>🕵️ 成功套出牧師資訊 ★</span><span class="sa">+3 分</span></div>
+      <div class="score-row"><span>🕵️ 抓到別人在套自己的話</span><span class="sg">+1 分</span></div>
+      <div class="score-row"><span>🕵️ 完成全部臥底目標</span><span class="sa">+2 額外獎勵</span></div>
+      <div class="score-row"><span>🕵️ 被人成功套到話（每題）</span><span class="sr">–1 分</span></div>
+      <div class="score-row"><span>📖 對方察覺到你傳的經節</span><span class="sg">+3 分</span></div>
+      <div class="score-row"><span>📖 成功察覺對方傳來的經節</span><span class="sg">+2 分</span></div>
+      <div class="hint">💡 每人同時有兩個任務：臥底套話 ＋ 傳遞聖經經節。接收者知道誰是自己的「信差」，要留心那個人說話。傳遞者要在對話中自然說出，不能讓其他人察覺。</div>
+    </div>
+  </div>
+
+  <div id="step2" style="display:none">
+    <div class="card">
+      <div style="font-size:13px;color:#888;margin-bottom:10px;">點選名字查看對應的任務卡</div>
+      <div class="name-tabs" id="name-tabs"></div>
+    </div>
+    <div class="card" id="card-display">
+      <div class="empty-hint"><div class="icon">👆</div>點選上方名字查看任務卡</div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-secondary" onclick="goBack()">← 重新設定</button>
+      <button class="btn btn-secondary" onclick="regen()">🔀 重新生成</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let members = [], missions = {}, verseOut = {}, verseIn = {}, selectedId = null, uid = 0;
+
+const LQ = [
+  {q:'有什麼很少人知道的興趣或技能',ban:'「你有什麼興趣？」'},
+  {q:'最近在學或嘗試的一件新事物',ban:'「你最近在學什麼？」'},
+  {q:'曾經去過讓自己印象最深的一個地方',ban:'「你去過最遠哪裡？」'},
+  {q:'從小到大一直保持的一個生活習慣',ban:'「你有什麼老習慣？」'},
+  {q:'有沒有什麼讓人意外的人生經歷或選擇',ban:'「你做過什麼特別決定？」'},
+  {q:'最近最期待的一件事，不管大小',ban:'「你在期待什麼？」'},
+  {q:'有什麼奇怪的恐懼或特別怕的東西',ban:'「你最怕什麼？」'},
+  {q:'有什麼連家人也不太了解的夢想或計劃',ban:'「你有什麼夢想？」'},
+  {q:'有一種食物幾乎每週都吃、少了會難受',ban:'「你最喜歡吃什麼？」'},
+  {q:'最近讓自己很有感觸的一本書或一部片',ban:'「你最近看什麼？」'},
+  {q:'平常什麼時候最有活力、最像自己',ban:'「你是晨型人嗎？」'},
+  {q:'如果明天突然多一天假，會做什麼',ban:'「你放假喜歡做什麼？」'},
+  {q:'有沒有一件一直想做但還沒做的事',ban:'「你有什麼遺憾？」'},
+  {q:'覺得自己最像哪一種動物，以及理由',ban:'「你像什麼動物？」'},
+  {q:'最近改變或正在培養的一個新習慣',ban:'「你最近有什麼改變？」'},
+  {q:'加入團契之前是個什麼樣的人',ban:'「你以前是什麼個性？」'},
+];
+const FQ = [
+  {q:'曾經因為信仰改變過的一個重要決定',ban:'「信仰有影響你的決定嗎？」'},
+  {q:'最近讓自己感謝神的一件小事',ban:'「你最近感謝神什麼？」'},
+  {q:'最喜歡的聖經人物，以及為什麼是他/她',ban:'「你喜歡哪個聖經人物？」'},
+  {q:'有沒有曾經感受到神帶領的印象深刻時刻',ban:'「你有感受過神帶領嗎？」'},
+  {q:'最喜歡用什麼方式和神連結（禱告、讀經、自然…）',ban:'「你怎麼和神連結？」'},
+  {q:'加入團契之後覺得自己有沒有改變',ban:'「你覺得自己改變了嗎？」'},
+  {q:'有一段聖經讓自己最近特別有感觸',ban:'「你最近讀哪段聖經？」'},
+  {q:'覺得自己最像哪一個聖經人物，以及為什麼',ban:'「你像哪個聖經人物？」'},
+];
+const PQ = [
+  {q:'在決定全職事奉之前做過什麼工作或讀什麼科系',ban:'「你以前做什麼工作？」'},
+  {q:'來新竹之後有沒有吃到讓自己驚喜的食物',ban:'「你喜歡新竹什麼食物？」'},
+  {q:'對這個團契的第一印象是什麼',ban:'「你對我們第一印象？」'},
+  {q:'當初是什麼讓他/她決定走全職事奉這條路',ban:'「你為什麼當牧師？」'},
+  {q:'有沒有什麼讓他/她意想不到的事奉經歷',ban:'「你有什麼特別故事？」'},
+  {q:'有沒有一個讓他/她印象深刻的信仰時刻',ban:'「你有印象深的信仰故事？」'},
+  {q:'最近在讀的書或讓他/她有感觸的聖經段落',ban:'「你最近讀什麼？」'},
+  {q:'平常最喜歡用什麼方式放鬆或充電',ban:'「你怎麼放鬆？」'},
+];
+const VERSES = [
+  {text:'我靠著那加給我力量的，凡事都能做。',ref:'腓立比書 4:13'},
+  {text:'你當剛強壯膽！不要懼怕，也不要驚惶；因為你無論往哪裡去，耶和華你的神必與你同在。',ref:'約書亞記 1:9'},
+  {text:'耶和華是我的牧者，我必不至缺乏。',ref:'詩篇 23:1'},
+  {text:'我們曉得萬事都互相效力，叫愛神的人得益處。',ref:'羅馬書 8:28'},
+  {text:'那等候耶和華的必從新得力，他們必如鷹展翅上騰。',ref:'以賽亞書 40:31'},
+  {text:'凡勞苦擔重擔的人，可以到我這裡來，我就使你們得安息。',ref:'馬太福音 11:28'},
+  {text:'神愛世人，甚至將他的獨生子賜給他們，叫一切信他的，不至滅亡，反得永生。',ref:'約翰福音 3:16'},
+  {text:'神是我們的避難所，是我們的力量，是我們在患難中隨時的幫助。',ref:'詩篇 46:1'},
+  {text:'愛是恆久忍耐，又有恩慈；愛是不嫉妒，愛是不自誇。',ref:'哥林多前書 13:4'},
+  {text:'你們要將一切的憂慮卸給神，因為他顧念你們。',ref:'彼得前書 5:7'},
+  {text:'應當一無掛慮，只要凡事藉著禱告、祈求，帶著感謝，將你們所要的告訴神。',ref:'腓立比書 4:6'},
+  {text:'你要專心仰賴耶和華，不可倚靠自己的聰明。',ref:'箴言 3:5'},
+  {text:'我知道我向你們所懷的意念，是賜平安的意念，不是降災禍的意念，要叫你們末後有指望。',ref:'耶利米書 29:11'},
+  {text:'因此，你們要彼此接納，如同基督接納你們一樣，使榮耀歸與神。',ref:'羅馬書 15:7'},
+  {text:'我已經說這些事給你們聽，是要叫你們在我裡面有平安。在世上你們有苦難，但你們可以放心，我已經勝了世界。',ref:'約翰福音 16:33'},
+  {text:'要謙虛、溫柔、忍耐，用愛心互相寬容。',ref:'以弗所書 4:2'},
+];
+
+const shuffle = a => { const b=[...a]; for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; };
+function pickFrom(bank, used, count) { return shuffle(bank.map((q,i)=>({q,i})).filter(x=>!used.includes(x.i))).slice(0,count); }
+
+function addMember() {
+  const inp = document.getElementById('name-input');
+  const name = inp.value.trim();
+  if (!name) return;
+  members.push({id:++uid, name, isPastor:false});
+  inp.value = ''; renderList();
+}
+function removeMember(id) { members = members.filter(m=>m.id!==id); renderList(); }
+function togglePastor(id) {
+  const cur = members.find(m=>m.id===id)?.isPastor;
+  members = members.map(m=>({...m, isPastor: m.id===id ? !cur : false}));
+  renderList();
+}
+function renderList() {
+  const list = document.getElementById('member-list');
+  const area = document.getElementById('gen-area');
+  const warn = document.getElementById('warn-msg');
+  if (!members.length) { list.innerHTML=`<div class="empty-hint"><div class="icon">👥</div>先新增成員</div>`; area.style.display='none'; return; }
+  list.innerHTML = members.map(m=>`
+    <div class="member-item">
+      <div class="member-name">${m.name}${m.isPastor?' <span class="pastor-chip">★ 牧師</span>':''}</div>
+      <button class="btn-toggle ${m.isPastor?'on':''}" onclick="togglePastor(${m.id})">${m.isPastor?'★ 牧師':'設為牧師'}</button>
+      <button class="btn-icon" onclick="removeMember(${m.id})">×</button>
+    </div>`).join('');
+  area.style.display = 'block';
+  const hasPastor = members.some(m=>m.isPastor);
+  if (members.length < 3) { warn.textContent='⚠️ 至少需要 3 位成員才能生成任務卡。'; warn.style.display='block'; }
+  else if (!hasPastor) { warn.textContent='💡 建議標記一位牧師，讓每張任務卡都包含找牧師的任務。'; warn.style.display='block'; }
+  else { warn.style.display='none'; }
+}
+
+function generate() { if(members.length<3)return; missions=buildMissions(); buildVerses(); showStep2(); }
+function regen() { missions=buildMissions(); buildVerses(); renderTabs(); if(selectedId)showCard(selectedId); }
+
+function buildMissions() {
+  const pastor = members.find(m=>m.isPastor);
+  const others = members.filter(m=>!m.isPastor);
+  const used = {}; members.forEach(m=>{used[m.id]={l:[],f:[],p:[]};});
+  const tc = {}; members.forEach(m=>{tc[m.id]=0;});
+  const asgn = {}; members.forEach(m=>{asgn[m.id]=[];});
+  if (pastor) {
+    others.forEach(m=>{asgn[m.id].push(pastor.id); tc[pastor.id]++;});
+    shuffle(others).slice(0,Math.min(3,others.length)).forEach(t=>{asgn[pastor.id].push(t.id); tc[t.id]++;});
+  }
+  for (const person of members) {
+    const need = pastor ? (person.isPastor?3:2) : 3;
+    const pool = members.filter(m=>m.id!==person.id&&!asgn[person.id].includes(m.id)).sort((a,b)=>tc[a.id]-tc[b.id]);
+    pool.slice(0, need-asgn[person.id].length).forEach(t=>{asgn[person.id].push(t.id); tc[t.id]++;});
+  }
+  const NC = ['teal','purple','blue']; const result = {};
+  for (const person of members) {
+    let ci=0;
+    result[person.id] = asgn[person.id].map(tid=>{
+      const target=members.find(m=>m.id===tid), isPastor=target.isPastor, u=used[tid];
+      let q1,q2;
+      if (isPastor) {
+        const pp=pickFrom(PQ,u.p,1)[0], fp=pickFrom(FQ,u.f,1)[0];
+        q1=pp?{...pp.q,faith:false}:null; q2=fp?{...fp.q,faith:true}:null;
+        if(pp)u.p.push(pp.i); if(fp)u.f.push(fp.i);
+      } else {
+        const lp=pickFrom(LQ,u.l,1)[0], fp=pickFrom(FQ,u.f,1)[0];
+        q1=lp?{...lp.q,faith:false}:null; q2=fp?{...fp.q,faith:true}:null;
+        if(lp)u.l.push(lp.i); if(fp)u.f.push(fp.i);
+      }
+      const color=isPastor?'amber':NC[ci++%NC.length];
+      return {target,isPastor,q1,q2,color};
+    });
+  }
+  return result;
+}
+
+function buildVerses() {
+  const shuffled = shuffle([...members]);
+  const usedV = []; verseOut={}; verseIn={};
+  shuffled.forEach((member,i)=>{
+    const target = shuffled[(i+1)%shuffled.length];
+    const avail = VERSES.map((v,vi)=>({v,vi})).filter(x=>!usedV.includes(x.vi));
+    const pick = shuffle(avail)[0] || {v:VERSES[i%VERSES.length], vi:i%VERSES.length};
+    usedV.push(pick.vi);
+    verseOut[member.id] = {verse:pick.v.text, ref:pick.v.ref, targetId:target.id};
+    verseIn[target.id] = member.id;
+  });
+}
+
+function showStep2() {
+  document.getElementById('step1').style.display='none';
+  document.getElementById('step2').style.display='block';
+  selectedId=null; renderTabs();
+  document.getElementById('card-display').innerHTML=`<div class="empty-hint"><div class="icon">👆</div>點選上方名字查看任務卡</div>`;
+}
+function goBack() { document.getElementById('step1').style.display='block'; document.getElementById('step2').style.display='none'; selectedId=null; }
+function renderTabs() {
+  document.getElementById('name-tabs').innerHTML = members.map(m=>`
+    <div class="name-tab ${m.isPastor?'is-pastor':''} ${selectedId===m.id?'active':''}" onclick="showCard(${m.id})">
+      ${m.isPastor?'★ ':''}${m.name}
+    </div>`).join('');
+}
+
+function showCard(id) {
+  selectedId=id; renderTabs();
+  const member=members.find(m=>m.id===id);
+  const ms=missions[id]||[];
+  const vo=verseOut[id];
+  const targetM=vo?members.find(m=>m.id===vo.targetId):null;
+  const senderM=verseIn[id]?members.find(m=>m.id===verseIn[id]):null;
+  const maxPts = ms.reduce((s,m)=>s+(m.isPastor?6:4),0)+5;
+  document.getElementById('card-display').innerHTML=`
+    <div class="mc-head">
+      <div>
+        <div class="mc-title">${member.isPastor?'★ ':''}${member.name} 的任務卡</div>
+        <div class="mc-sub">${ms.length} 個臥底目標・1 個傳遞任務・最高 ${maxPts} 分</div>
+      </div>
+      <div class="mc-seal">🤫 勿外洩</div>
+    </div>
+    <div class="section-divider"><div class="sd-line"></div><div class="sd-label">🕵️ 臥底任務</div><div class="sd-line"></div></div>
+    ${ms.map((m,i)=>renderBlock(m,i)).join('')}
+    <div class="section-divider"><div class="sd-line"></div><div class="sd-label">📖 傳遞任務</div><div class="sd-line"></div></div>
+    ${renderVerseBlocks(id, vo, targetM, senderM)}
+    <button class="copy-btn" id="copy-btn" onclick="copyLine(${id})">📋 複製 LINE 訊息</button>
+  `;
+}
+
+function renderBlock(m,i) {
+  const label=m.isPastor?`目標 ${i+1} ★`:`目標 ${i+1}`;
+  const pts=m.isPastor?'+3 分 ★':'+2 分';
+  const q1h=m.q1?`<div class="q-row"><div class="q-dot"></div><div class="q-text">${m.q1.q}</div></div>`:'';
+  const q2h=m.q2?`<div class="q-row"><div class="q-dot"></div><div class="q-text">${m.q2.q} <span class="faith-mark">（信仰向）</span></div></div>`:'';
+  const bans=[m.q1?.ban,m.q2?.ban].filter(Boolean).map(b=>`<span class="ban-tag">${b}</span>`).join(' ');
+  return `<div class="tb tb-${m.color}">
+    <div class="tb-top"><div class="tb-label">${label}</div><div class="tb-name">${m.target.name}</div><div class="tb-pts">${pts}</div></div>
+    ${q1h}${q2h}
+    <div class="ban">禁止直接問：${bans}</div>
+  </div>`;
+}
+
+function renderVerseBlocks(id, vo, targetM, senderM) {
+  return `
+    <div class="verse-send">
+      <div class="vs-header">
+        <div class="vs-icon">📤</div>
+        <div class="vs-title">你要傳遞這節經文</div>
+        <div class="vs-pts">傳遞成功 +3</div>
+      </div>
+      <div class="vs-target">傳給：<strong>${targetM?targetM.name:'—'}</strong></div>
+      <div class="verse-box" id="vbox-${id}">
+        <div class="verse-quote">「${vo?vo.verse:''}」</div>
+        <div class="verse-ref">${vo?vo.ref:''}</div>
+      </div>
+      <button class="btn-edit-verse" onclick="toggleEdit(${id})">✏️ 換一節或自訂</button>
+      <div class="verse-edit" id="vedit-${id}">
+        <textarea id="vtext-${id}" placeholder="輸入經文內容">${vo?vo.verse:''}</textarea>
+        <input type="text" id="vref-${id}" placeholder="書卷 章:節" value="${vo?vo.ref:''}">
+        <div class="verse-edit-btns">
+          <button class="btn btn-secondary btn-sm" onclick="randVerse(${id})">🔀 隨機換一節</button>
+          <button class="btn btn-primary btn-sm" onclick="saveVerse(${id})">儲存</button>
+        </div>
+      </div>
+      <div class="vs-rule">在對話中自然地說出這節經文，讓 ${targetM?targetM.name:'對方'} 自己察覺——不能直接說「這節送給你」，也不能讓其他人察覺。</div>
+    </div>
+    <div class="verse-recv">
+      <div class="vr-header">
+        <div class="vr-icon">📬</div>
+        <div class="vr-title">你也會收到一節經文</div>
+        <div class="vr-pts">察覺成功 +2</div>
+      </div>
+      <div class="vr-body"><strong>${senderM?senderM.name:'—'}</strong> 會在對話中自然說出一節聖經給你聽。你不知道是哪一節，要在聊天中自己察覺。</div>
+      <div class="vr-rule">察覺到了就在心裡記住，到梅花亭再說出來確認是否正確。</div>
+    </div>`;
+}
+
+function toggleEdit(id) { document.getElementById(`vedit-${id}`).classList.toggle('open'); }
+function randVerse(id) {
+  const v=shuffle([...VERSES])[0];
+  document.getElementById(`vtext-${id}`).value=v.text;
+  document.getElementById(`vref-${id}`).value=v.ref;
+}
+function saveVerse(id) {
+  const text=document.getElementById(`vtext-${id}`).value.trim();
+  const ref=document.getElementById(`vref-${id}`).value.trim();
+  if(!text)return;
+  verseOut[id].verse=text; verseOut[id].ref=ref;
+  document.getElementById(`vbox-${id}`).innerHTML=`<div class="verse-quote">「${text}」</div><div class="verse-ref">${ref}</div>`;
+  document.getElementById(`vedit-${id}`).classList.remove('open');
+}
+
+function copyLine(id) {
+  const member=members.find(m=>m.id===id);
+  const ms=missions[id]||[], vo=verseOut[id];
+  const targetM=vo?members.find(m=>m.id===vo.targetId):null;
+  const senderM=verseIn[id]?members.find(m=>m.id===verseIn[id]):null;
+  let txt=`嗨 ${member.name}！這是你的秘密任務卡，不要給別人看 🤫\n\n`;
+  txt+=`━━━ 🕵️ 臥底任務 ━━━\n邊走邊套出資訊，禁止直接問，到梅花亭揭曉！\n\n`;
+  ms.forEach((m,i)=>{
+    txt+=`【目標${i+1}】${m.isPastor?'★ ':''}${m.target.name}（${m.isPastor?'各 +3 分':'各 +2 分'}）\n`;
+    if(m.q1)txt+=`→ ${m.q1.q}\n`;
+    if(m.q2)txt+=`→ ${m.q2.q}\n`;
+    const bans=[m.q1?.ban,m.q2?.ban].filter(Boolean).join('、');
+    if(bans)txt+=`⛔ 禁止：${bans}\n`;
+    txt+='\n';
+  });
+  txt+=`━━━ 📖 傳遞任務 ━━━\n`;
+  txt+=`把這節經文自然說給 ${targetM?.name||'對方'} 聽，讓他/她自己察覺（成功 +3 分）\n不能直接說「這節送給你」，也不能讓其他人察覺\n\n`;
+  if(vo){txt+=`「${vo.verse}」\n${vo.ref}\n\n`;}
+  txt+=`📬 你也會從 ${senderM?.name||'某人'} 那裡收到一節經文\n`;
+  txt+=`他/她會在對話中自然說出，留心察覺（察覺成功 +2 分）\n`;
+  txt+=`到梅花亭再說出你聽到的經文確認是否正確\n\n`;
+  txt+=`加油！🎯`;
+  const btn=document.getElementById('copy-btn');
+  const ok=()=>{btn.textContent='✓ 已複製！';btn.classList.add('done');setTimeout(()=>{btn.textContent='📋 複製 LINE 訊息';btn.classList.remove('done');},2200);};
+  if(navigator.clipboard){navigator.clipboard.writeText(txt).then(ok).catch(()=>fb(txt,ok));}else{fb(txt,ok);}
+}
+function fb(txt,cb){const ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;opacity:0;';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');cb();}catch(e){}document.body.removeChild(ta);}
+
+document.getElementById('name-input').addEventListener('keypress',e=>{if(e.key==='Enter')addMember();});
+</script>
+</body>
+</html>
