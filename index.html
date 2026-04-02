@@ -223,7 +223,11 @@ input[type=text]:focus, textarea:focus { border-color: #1D9E75; }
     </div>
     <div id="step1">
       <div class="card">
-        <div class="card-title">成員名單</div>
+        <div class="card-title" style="display:flex;align-items:center;gap:8px;">
+          成員名單
+          <span id="save-badge" style="display:none;font-size:11px;background:#E1F5EE;color:#0F6E56;padding:2px 8px;border-radius:20px;font-weight:500;align-items:center;gap:4px;">✓ 已自動儲存</span>
+          <button onclick="clearSave()" style="margin-left:auto;font-size:11px;color:#aaa;border:1px solid #e8e7e3;background:white;border-radius:6px;padding:3px 10px;cursor:pointer;">🗑 清除記錄</button>
+        </div>
         <div class="input-row">
           <input type="text" id="name-input" placeholder="輸入名字，按 Enter 新增" maxlength="10">
           <button class="btn btn-primary" onclick="addMember()">新增</button>
@@ -385,8 +389,20 @@ const VERSES = [
   {text:'因此，你們要彼此接納，如同基督接納你們一樣，使榮耀歸與神。',ref:'羅馬書 15:7'},
   {text:'我已經說這些事給你們聽，是要叫你們在我裡面有平安。在世上你們有苦難，但你們可以放心，我已經勝了世界。',ref:'約翰福音 16:33'},
   {text:'要謙虛、溫柔、忍耐，用愛心互相寬容。',ref:'以弗所書 4:2'},
-];
 
+  {text:'你的話是我腳前的燈，是我路上的光。',ref:'詩篇 119:105'},
+  {text:'你不要害怕，因為我與你同在；不要驚惶，因為我是你的神。',ref:'以賽亞書 41:10'},
+  {text:'你們親近神，神就必親近你們。',ref:'雅各書 4:8'},
+  {text:'喜樂的心，乃是良藥。',ref:'箴言 17:22'},
+  {text:'凡事謝恩；因為這是神在基督耶穌裡向你們所定的旨意。',ref:'帖撒羅尼迦前書 5:18'},
+  {text:'人心籌算自己的道路；惟耶和華指引他的腳步。',ref:'箴言 16:9'},
+  {text:'我的恩典夠你用的，因為我的能力是在人的軟弱上顯得完全。',ref:'哥林多後書 12:9'},
+  {text:'如今常存的有信，有望，有愛；這三樣，其中最大的是愛。',ref:'哥林多前書 13:13'},
+  {text:'在指望中要喜樂，在患難中要忍耐，禱告要恆切。',ref:'羅馬書 12:12'},
+  {text:'我們若認自己的罪，神是信實的，是公義的，必要赦免我們的罪。',ref:'約翰一書 1:9'},
+  {text:'你們要休息，要知道我是神。',ref:'詩篇 46:10'},
+  {text:'耶和華靠近傷心的人，拯救靈性痛悔的人。',ref:'詩篇 34:18'},
+];
 // ── 觸發任務題庫 ─────────────────────────────────────────────────────
 const TRIGGERS = [
   {
@@ -750,6 +766,44 @@ if (MODE === 'phone') {
 if (MODE === 'admin') {
   let members = [], missions = {}, verseOut = {}, verseIn = {}, bonusOut = {}, selectedId = null, uid = 0, currentSeed = '';
 
+  const STORE_KEY = 'mission_save';
+
+  function saveState() {
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify({ members, uid, currentSeed, generated: Object.keys(missions).length > 0 }));
+    } catch(e) {}
+  }
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return false;
+      const s = JSON.parse(raw);
+      members = s.members || [];
+      uid = s.uid || members.reduce((mx, m) => Math.max(mx, m.id), 0);
+      currentSeed = s.currentSeed || '';
+      return s;
+    } catch(e) { return false; }
+  }
+
+  function clearSave() {
+    try { localStorage.removeItem(STORE_KEY); } catch(e) {}
+    members = []; uid = 0; currentSeed = '';
+    missions = {}; verseOut = {}; verseIn = {}; bonusOut = {};
+    selectedId = null;
+    document.getElementById('step2').style.display = 'none';
+    document.getElementById('step1').style.display = 'block';
+    renderList();
+    document.getElementById('seed-input').value = '';
+    showSaveBadge(false);
+  }
+  window.clearSave = clearSave;
+
+  function showSaveBadge(show) {
+    const badge = document.getElementById('save-badge');
+    if (badge) badge.style.display = show ? 'inline-flex' : 'none';
+  }
+
   // ── 先把所有函數定義並掛到 window，再啟動 UI ──
   function addMember() {
     const inp = document.getElementById('name-input');
@@ -758,17 +812,20 @@ if (MODE === 'admin') {
     members.push({id: ++uid, name, isPastor: false});
     inp.value = '';
     renderList();
+    saveState();
   }
-  function removeMember(id) { members = members.filter(m => m.id !== id); renderList(); }
+  function removeMember(id) { members = members.filter(m => m.id !== id); renderList(); saveState(); }
   function togglePastor(id) {
     const cur = members.find(m => m.id === id)?.isPastor;
     members = members.map(m => ({...m, isPastor: m.id === id ? !cur : false}));
     renderList();
+    saveState();
   }
   function renderList() {
     const list = document.getElementById('member-list');
     const area = document.getElementById('gen-area');
     const warn = document.getElementById('warn-msg');
+    showSaveBadge(members.length > 0);
     if (!members.length) { list.innerHTML = `<div class="empty-hint"><div class="icon">👥</div>先新增成員</div>`; area.style.display = 'none'; return; }
     list.innerHTML = members.map(m => `
       <div class="member-item">
@@ -796,9 +853,11 @@ if (MODE === 'admin') {
     const v = buildVerses(members);
     verseOut = v.verseOut; verseIn = v.verseIn;
     bonusOut = buildBonusTasks(members);
+    saveState();
     document.getElementById('step1').style.display = 'none';
     document.getElementById('step2').style.display = 'block';
     selectedId = null; renderTabs();
+    showSaveBadge(true);
     document.getElementById('card-display').innerHTML = `<div class="empty-hint" style="background:white;border-radius:14px;border:1px solid #e8e7e3;"><div class="icon">👆</div>點選名字，讓對方掃 QR Code</div>`;
   }
   function regen() {
@@ -814,14 +873,34 @@ if (MODE === 'admin') {
     document.getElementById('step1').style.display = 'block';
     document.getElementById('step2').style.display = 'none';
     selectedId = null;
+    saveState();
   }
   window.generate = generate;
   window.regen = regen;
   window.goBack = goBack;
 
-  // 綁定 Enter 鍵（DOM 已存在，直接綁）
+  // 綁定 Enter 鍵 + 還原上次狀態
   window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('name-input').addEventListener('keypress', e => { if (e.key === 'Enter') addMember(); });
+
+    const saved = loadState();
+    if (saved && members.length > 0) {
+      renderList();
+      if (saved.currentSeed) document.getElementById('seed-input').value = saved.currentSeed;
+
+      if (saved.generated && currentSeed) {
+        setSeed(currentSeed);
+        missions = buildMissions(members);
+        const v = buildVerses(members);
+        verseOut = v.verseOut; verseIn = v.verseIn;
+        bonusOut = buildBonusTasks(members);
+        document.getElementById('step1').style.display = 'none';
+        document.getElementById('step2').style.display = 'block';
+        showSaveBadge(true);
+        renderTabs();
+        document.getElementById('card-display').innerHTML = `<div class="empty-hint" style="background:white;border-radius:14px;border:1px solid #e8e7e3;"><div class="icon">👆</div>點選名字，讓對方掃 QR Code</div>`;
+      }
+    }
   });
 
   function renderTabs() {
