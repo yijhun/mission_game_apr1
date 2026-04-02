@@ -61,7 +61,8 @@ input[type=text]:focus, textarea:focus { border-color: #1D9E75; }
 .copy-btn { width: 100%; padding: 11px; border: 1.5px solid #e8e7e3; border-radius: 10px; background: #f5f4f0; font-size: 13px; cursor: pointer; color: #555; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all .2s; }
 .copy-btn:hover { background: #ebe9e3; }
 .copy-btn.done { background: #E1F5EE; border-color: #9FE1CB; color: #0F6E56; }
-.seed-info { background: #E1F5EE; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #0F6E56; margin-bottom: 14px; line-height: 1.6; }
+
+/* ── 主控端文字版任務樣式（隱藏功能） ── */
 .toggle-btn { width: 100%; padding: 12px; margin: 10px 0 0; border: 1.5px dashed #e8e7e3; border-radius: 10px; background: #fafaf8; font-size: 13px; cursor: pointer; color: #888; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all .2s; }
 .toggle-btn:hover { background: #f0efe9; border-color: #ccc; color: #555; }
 .toggle-btn.open { background: #FAEEDA; border-color: #FAC775; color: #854F0B; }
@@ -87,72 +88,16 @@ input[type=text]:focus, textarea:focus { border-color: #1D9E75; }
 .mc-title { font-size: 15px; font-weight: 600; }
 .mc-sub { font-size: 12px; color: #888; margin-top: 2px; }
 .mc-seal { font-size: 11px; background: #fce8c3; color: #854F0B; padding: 4px 10px; border-radius: 20px; white-space: nowrap; font-weight: 600; }
-.tb-teal { background: #f0fdf7; border-color: #9FE1CB; }
-.tb-teal .tb-label { color: #1D9E75; } .tb-teal .tb-name { color: #085041; }
-.tb-teal .q-dot { background: #1D9E75; } .tb-teal .tb-pts { background: #E1F5EE; color: #0F6E56; }
-.tb-teal .ban { background: #d4f0e6; color: #0F6E56; } .tb-teal .ban-tag { background: #9FE1CB; color: #04342C; }
-.tb-purple { background: #f5f4ff; border-color: #CECBF6; }
-.tb-purple .tb-label { color: #7F77DD; } .tb-purple .tb-name { color: #26215C; }
-.tb-purple .q-dot { background: #7F77DD; } .tb-purple .tb-pts { background: #EEEDFE; color: #534AB7; }
-.tb-purple .ban { background: #e0defb; color: #534AB7; } .tb-purple .ban-tag { background: #CECBF6; color: #26215C; }
-.tb-blue { background: #f0f7ff; border-color: #B5D4F4; }
-.tb-blue .tb-label { color: #378ADD; } .tb-blue .tb-name { color: #042C53; }
-.tb-blue .q-dot { background: #378ADD; } .tb-blue .tb-pts { background: #E6F1FB; color: #185FA5; }
-.tb-blue .ban { background: #d0e8f9; color: #185FA5; } .tb-blue .ban-tag { background: #B5D4F4; color: #042C53; }
-.tb-amber { background: #fffbf0; border-color: #FAC775; }
-.tb-amber .tb-label { color: #BA7517; } .tb-amber .tb-name { color: #412402; }
-.tb-amber .q-dot { background: #EF9F27; } .tb-amber .tb-pts { background: #FAEEDA; color: #854F0B; }
-.tb-amber .ban { background: #fce8c3; color: #854F0B; } .tb-amber .ban-tag { background: #FAC775; color: #412402; }
-.verse-send { background: #f0fdf7; border: 1.5px solid #5DCAA5; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
-.vs-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.vs-icon { font-size: 17px; }
-.vs-title { font-size: 13px; font-weight: 600; color: #085041; flex: 1; }
-.vs-pts { font-size: 10px; background: #E1F5EE; color: #0F6E56; padding: 3px 9px; border-radius: 20px; }
-.vs-target { font-size: 13px; color: #1D9E75; margin-bottom: 10px; }
-.vs-target strong { font-size: 15px; color: #085041; }
-.verse-box { background: white; border: 1px solid #9FE1CB; border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; }
-.verse-quote { font-size: 14px; line-height: 1.8; color: #1a1a1a; font-style: italic; margin-bottom: 4px; }
-.verse-ref { font-size: 12px; color: #1D9E75; font-weight: 500; }
-.vs-rule { font-size: 12px; color: #1D9E75; line-height: 1.6; padding-top: 10px; border-top: 1px solid #9FE1CB; }
-.verse-recv { background: #f5f4ff; border: 1.5px solid #CECBF6; border-radius: 12px; padding: 14px 16px; }
-.vr-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.vr-icon { font-size: 17px; }
-.vr-title { font-size: 13px; font-weight: 600; color: #26215C; }
-.vr-pts { font-size: 10px; background: #EEEDFE; color: #534AB7; padding: 3px 9px; border-radius: 20px; margin-left: auto; }
-.vr-body { font-size: 13px; color: #534AB7; line-height: 1.7; }
-.vr-body strong { font-size: 15px; color: #26215C; }
-.vr-rule { font-size: 12px; color: #7F77DD; margin-top: 8px; padding-top: 8px; border-top: 1px solid #CECBF6; line-height: 1.6; }
+.tb-teal { background: #f0fdf7; border-color: #9FE1CB; } .tb-teal .tb-label { color: #1D9E75; } .tb-teal .tb-name { color: #085041; } .tb-teal .q-dot { background: #1D9E75; } .tb-teal .tb-pts { background: #E1F5EE; color: #0F6E56; } .tb-teal .ban { background: #d4f0e6; color: #0F6E56; } .tb-teal .ban-tag { background: #9FE1CB; color: #04342C; }
+.tb-purple { background: #f5f4ff; border-color: #CECBF6; } .tb-purple .tb-label { color: #7F77DD; } .tb-purple .tb-name { color: #26215C; } .tb-purple .q-dot { background: #7F77DD; } .tb-purple .tb-pts { background: #EEEDFE; color: #534AB7; } .tb-purple .ban { background: #e0defb; color: #534AB7; } .tb-purple .ban-tag { background: #CECBF6; color: #26215C; }
+.tb-blue { background: #f0f7ff; border-color: #B5D4F4; } .tb-blue .tb-label { color: #378ADD; } .tb-blue .tb-name { color: #042C53; } .tb-blue .q-dot { background: #378ADD; } .tb-blue .tb-pts { background: #E6F1FB; color: #185FA5; } .tb-blue .ban { background: #d0e8f9; color: #185FA5; } .tb-blue .ban-tag { background: #B5D4F4; color: #042C53; }
+.tb-amber { background: #fffbf0; border-color: #FAC775; } .tb-amber .tb-label { color: #BA7517; } .tb-amber .tb-name { color: #412402; } .tb-amber .q-dot { background: #EF9F27; } .tb-amber .tb-pts { background: #FAEEDA; color: #854F0B; } .tb-amber .ban { background: #fce8c3; color: #854F0B; } .tb-amber .ban-tag { background: #FAC775; color: #412402; }
+.verse-send { background: #f0fdf7; border: 1.5px solid #5DCAA5; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; } .vs-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; } .vs-icon { font-size: 17px; } .vs-title { font-size: 13px; font-weight: 600; color: #085041; flex: 1; } .vs-pts { font-size: 10px; background: #E1F5EE; color: #0F6E56; padding: 3px 9px; border-radius: 20px; } .vs-target { font-size: 13px; color: #1D9E75; margin-bottom: 10px; } .vs-target strong { font-size: 15px; color: #085041; } .verse-box { background: white; border: 1px solid #9FE1CB; border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; } .verse-quote { font-size: 14px; line-height: 1.8; color: #1a1a1a; font-style: italic; margin-bottom: 4px; } .verse-ref { font-size: 12px; color: #1D9E75; font-weight: 500; } .vs-rule { font-size: 12px; color: #1D9E75; line-height: 1.6; padding-top: 10px; border-top: 1px solid #9FE1CB; }
+.verse-recv { background: #f5f4ff; border: 1.5px solid #CECBF6; border-radius: 12px; padding: 14px 16px; } .vr-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; } .vr-icon { font-size: 17px; } .vr-title { font-size: 13px; font-weight: 600; color: #26215C; } .vr-pts { font-size: 10px; background: #EEEDFE; color: #534AB7; padding: 3px 9px; border-radius: 20px; margin-left: auto; } .vr-body { font-size: 13px; color: #534AB7; line-height: 1.7; } .vr-body strong { font-size: 15px; color: #26215C; } .vr-rule { font-size: 12px; color: #7F77DD; margin-top: 8px; padding-top: 8px; border-top: 1px solid #CECBF6; line-height: 1.6; }
+.bonus-trigger { background: #FBEAF0; border: 1.5px solid #F4C0D1; border-radius: 12px; padding: 14px 16px; } .bt-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; } .bt-label { font-size: 11px; font-weight: 700; color: #993556; letter-spacing: .06em; text-transform: uppercase; flex: 1; } .bt-pts { font-size: 10px; background: #FBEAF0; color: #993556; padding: 2px 8px; border-radius: 20px; border: 1px solid #F4C0D1; } .bt-name { font-size: 15px; font-weight: 600; color: #4B1528; margin-bottom: 8px; } .bt-desc { font-size: 13px; color: #72243E; line-height: 1.7; margin-bottom: 8px; } .bt-tip { font-size: 12px; color: #993556; padding-top: 8px; border-top: 0.5px solid #F4C0D1; line-height: 1.6; }
+.bonus-codeword { background: #EAF3DE; border: 1.5px solid #C0DD97; border-radius: 12px; padding: 14px 16px; } .bc-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; } .bc-label { font-size: 11px; font-weight: 700; color: #3B6D11; letter-spacing: .06em; text-transform: uppercase; flex: 1; } .bc-pts { font-size: 10px; background: #EAF3DE; color: #3B6D11; padding: 2px 8px; border-radius: 20px; border: 1px solid #C0DD97; } .bc-word { font-size: 28px; font-weight: 700; color: #173404; margin-bottom: 4px; letter-spacing: .02em; } .bc-hint { font-size: 11px; color: #639922; margin-bottom: 10px; } .bc-desc { font-size: 13px; color: #27500A; line-height: 1.7; margin-bottom: 8px; } .bc-tip { font-size: 12px; color: #3B6D11; padding-top: 8px; border-top: 0.5px solid #C0DD97; line-height: 1.6; }
 
-.bonus-trigger { background: #FBEAF0; border: 1.5px solid #F4C0D1; border-radius: 12px; padding: 14px 16px; }
-.bt-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.bt-label { font-size: 11px; font-weight: 700; color: #993556; letter-spacing: .06em; text-transform: uppercase; flex: 1; }
-.bt-pts { font-size: 10px; background: #FBEAF0; color: #993556; padding: 2px 8px; border-radius: 20px; border: 1px solid #F4C0D1; }
-.bt-name { font-size: 15px; font-weight: 600; color: #4B1528; margin-bottom: 8px; }
-.bt-desc { font-size: 13px; color: #72243E; line-height: 1.7; margin-bottom: 8px; }
-.bt-tip { font-size: 12px; color: #993556; padding-top: 8px; border-top: 0.5px solid #F4C0D1; line-height: 1.6; }
-.bonus-codeword { background: #EAF3DE; border: 1.5px solid #C0DD97; border-radius: 12px; padding: 14px 16px; }
-.bc-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.bc-label { font-size: 11px; font-weight: 700; color: #3B6D11; letter-spacing: .06em; text-transform: uppercase; flex: 1; }
-.bc-pts { font-size: 10px; background: #EAF3DE; color: #3B6D11; padding: 2px 8px; border-radius: 20px; border: 1px solid #C0DD97; }
-.bc-word { font-size: 28px; font-weight: 700; color: #173404; margin-bottom: 4px; letter-spacing: .02em; }
-.bc-hint { font-size: 11px; color: #639922; margin-bottom: 10px; }
-.bc-desc { font-size: 13px; color: #27500A; line-height: 1.7; margin-bottom: 8px; }
-.bc-tip { font-size: 12px; color: #3B6D11; padding-top: 8px; border-top: 0.5px solid #C0DD97; line-height: 1.6; }
-.phone-bonus-trigger { background: #FBEAF0; border: 1.5px solid #F4C0D1; border-radius: 12px; padding: 14px; }
-.pbt-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.pbt-label { font-size: 11px; font-weight: 700; color: #993556; letter-spacing: .06em; text-transform: uppercase; flex: 1; }
-.pbt-pts { font-size: 10px; background: #FBEAF0; color: #993556; padding: 2px 8px; border-radius: 20px; border: 1px solid #F4C0D1; }
-.pbt-name { font-size: 15px; font-weight: 600; color: #4B1528; margin-bottom: 8px; }
-.pbt-desc { font-size: 13px; color: #72243E; line-height: 1.7; margin-bottom: 8px; }
-.pbt-tip { font-size: 12px; color: #993556; padding-top: 8px; border-top: 0.5px solid #F4C0D1; line-height: 1.6; }
-.phone-bonus-codeword { background: #EAF3DE; border: 1.5px solid #C0DD97; border-radius: 12px; padding: 14px; }
-.pbc-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.pbc-label { font-size: 11px; font-weight: 700; color: #3B6D11; letter-spacing: .06em; text-transform: uppercase; flex: 1; }
-.pbc-pts { font-size: 10px; background: #EAF3DE; color: #3B6D11; padding: 2px 8px; border-radius: 20px; border: 1px solid #C0DD97; }
-.pbc-word { font-size: 28px; font-weight: 700; color: #173404; margin-bottom: 4px; }
-.pbc-hint { font-size: 11px; color: #639922; margin-bottom: 10px; }
-.pbc-desc { font-size: 13px; color: #27500A; line-height: 1.7; margin-bottom: 8px; }
-.pbc-tip { font-size: 12px; color: #3B6D11; padding-top: 8px; border-top: 0.5px solid #C0DD97; line-height: 1.6; }
+/* ── 手機任務顯示模式 ── */
 .phone-wrap { max-width: 480px; margin: 0 auto; padding: 20px 16px 48px; }
 .phone-header { text-align: center; padding: 28px 0 20px; border-bottom: 1px solid #e8e7e3; margin-bottom: 20px; }
 .phone-icon { font-size: 36px; margin-bottom: 8px; }
@@ -171,50 +116,20 @@ input[type=text]:focus, textarea:focus { border-color: #1D9E75; }
 .phone-q-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 8px; }
 .phone-ban { font-size: 11px; margin-top: 8px; padding: 6px 10px; border-radius: 6px; line-height: 1.6; }
 .phone-ban b { margin-right: 4px; }
-/* target colors */
-.pt-teal { border-color: #9FE1CB; }
-.pt-teal .phone-target-num { color: #1D9E75; }
-.pt-teal .phone-target-name { color: #085041; }
-.pt-teal .phone-target-pts { background:#E1F5EE; color:#0F6E56; }
-.pt-teal .phone-q-dot { background: #1D9E75; }
-.pt-teal .phone-ban { background: #d4f0e6; color: #0F6E56; }
-.pt-purple { border-color: #CECBF6; }
-.pt-purple .phone-target-num { color: #7F77DD; }
-.pt-purple .phone-target-name { color: #26215C; }
-.pt-purple .phone-target-pts { background:#EEEDFE; color:#534AB7; }
-.pt-purple .phone-q-dot { background: #7F77DD; }
-.pt-purple .phone-ban { background: #e0defb; color: #534AB7; }
-.pt-blue { border-color: #B5D4F4; }
-.pt-blue .phone-target-num { color: #378ADD; }
-.pt-blue .phone-target-name { color: #042C53; }
-.pt-blue .phone-target-pts { background:#E6F1FB; color:#185FA5; }
-.pt-blue .phone-q-dot { background: #378ADD; }
-.pt-blue .phone-ban { background: #d0e8f9; color: #185FA5; }
-.pt-amber { border-color: #FAC775; }
-.pt-amber .phone-target-num { color: #BA7517; }
-.pt-amber .phone-target-name { color: #412402; }
-.pt-amber .phone-target-pts { background:#FAEEDA; color:#854F0B; }
-.pt-amber .phone-q-dot { background: #EF9F27; }
-.pt-amber .phone-ban { background: #fce8c3; color: #854F0B; }
-.phone-verse-send { background: #f0fdf7; border: 1.5px solid #5DCAA5; border-radius: 12px; padding: 14px; margin-bottom: 10px; }
-.pvs-label { font-size: 11px; font-weight: 700; color: #1D9E75; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px; }
-.pvs-target { font-size: 13px; color: #1D9E75; margin-bottom: 10px; }
-.pvs-target b { font-size: 16px; color: #085041; }
-.pvs-quote { font-style: italic; font-size: 15px; line-height: 1.8; color: #1a1a1a; margin-bottom: 4px; background: white; border: 1px solid #9FE1CB; border-radius: 8px; padding: 12px 14px; }
-.pvs-ref { font-size: 12px; color: #1D9E75; font-weight: 600; margin-bottom: 10px; padding-left: 2px; }
-.pvs-rule { font-size: 12px; color: #1D9E75; line-height: 1.6; padding-top: 10px; border-top: 1px solid #9FE1CB; }
-.phone-verse-recv { background: #f5f4ff; border: 1.5px solid #CECBF6; border-radius: 12px; padding: 14px; }
-.pvr-label { font-size: 11px; font-weight: 700; color: #7F77DD; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px; }
-.pvr-sender { font-size: 15px; font-weight: 700; color: #26215C; margin-bottom: 6px; }
-.pvr-body { font-size: 13px; color: #534AB7; line-height: 1.7; }
-.pvr-rule { font-size: 12px; color: #7F77DD; margin-top: 8px; padding-top: 8px; border-top: 1px solid #CECBF6; line-height: 1.6; }
+.pt-teal { border-color: #9FE1CB; } .pt-teal .phone-target-num { color: #1D9E75; } .pt-teal .phone-target-name { color: #085041; } .pt-teal .phone-target-pts { background:#E1F5EE; color:#0F6E56; } .pt-teal .phone-q-dot { background: #1D9E75; } .pt-teal .phone-ban { background: #d4f0e6; color: #0F6E56; }
+.pt-purple { border-color: #CECBF6; } .pt-purple .phone-target-num { color: #7F77DD; } .pt-purple .phone-target-name { color: #26215C; } .pt-purple .phone-target-pts { background:#EEEDFE; color:#534AB7; } .pt-purple .phone-q-dot { background: #7F77DD; } .pt-purple .phone-ban { background: #e0defb; color: #534AB7; }
+.pt-blue { border-color: #B5D4F4; } .pt-blue .phone-target-num { color: #378ADD; } .pt-blue .phone-target-name { color: #042C53; } .pt-blue .phone-target-pts { background:#E6F1FB; color:#185FA5; } .pt-blue .phone-q-dot { background: #378ADD; } .pt-blue .phone-ban { background: #d0e8f9; color: #185FA5; }
+.pt-amber { border-color: #FAC775; } .pt-amber .phone-target-num { color: #BA7517; } .pt-amber .phone-target-name { color: #412402; } .pt-amber .phone-target-pts { background:#FAEEDA; color:#854F0B; } .pt-amber .phone-q-dot { background: #EF9F27; } .pt-amber .phone-ban { background: #fce8c3; color: #854F0B; }
+.phone-verse-send { background: #f0fdf7; border: 1.5px solid #5DCAA5; border-radius: 12px; padding: 14px; margin-bottom: 10px; } .pvs-label { font-size: 11px; font-weight: 700; color: #1D9E75; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px; } .pvs-target { font-size: 13px; color: #1D9E75; margin-bottom: 10px; } .pvs-target b { font-size: 16px; color: #085041; } .pvs-quote { font-style: italic; font-size: 15px; line-height: 1.8; color: #1a1a1a; margin-bottom: 4px; background: white; border: 1px solid #9FE1CB; border-radius: 8px; padding: 12px 14px; } .pvs-ref { font-size: 12px; color: #1D9E75; font-weight: 600; margin-bottom: 10px; padding-left: 2px; } .pvs-rule { font-size: 12px; color: #1D9E75; line-height: 1.6; padding-top: 10px; border-top: 1px solid #9FE1CB; }
+.phone-verse-recv { background: #f5f4ff; border: 1.5px solid #CECBF6; border-radius: 12px; padding: 14px; } .pvr-label { font-size: 11px; font-weight: 700; color: #7F77DD; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px; } .pvr-sender { font-size: 15px; font-weight: 700; color: #26215C; margin-bottom: 6px; } .pvr-body { font-size: 13px; color: #534AB7; line-height: 1.7; } .pvr-rule { font-size: 12px; color: #7F77DD; margin-top: 8px; padding-top: 8px; border-top: 1px solid #CECBF6; line-height: 1.6; }
+.phone-bonus-trigger { background: #FBEAF0; border: 1.5px solid #F4C0D1; border-radius: 12px; padding: 14px; } .pbt-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; } .pbt-label { font-size: 11px; font-weight: 700; color: #993556; letter-spacing: .06em; text-transform: uppercase; flex: 1; } .pbt-pts { font-size: 10px; background: #FBEAF0; color: #993556; padding: 2px 8px; border-radius: 20px; border: 1px solid #F4C0D1; } .pbt-name { font-size: 15px; font-weight: 600; color: #4B1528; margin-bottom: 8px; } .pbt-desc { font-size: 13px; color: #72243E; line-height: 1.7; margin-bottom: 8px; } .pbt-tip { font-size: 12px; color: #993556; padding-top: 8px; border-top: 0.5px solid #F4C0D1; line-height: 1.6; }
+.phone-bonus-codeword { background: #EAF3DE; border: 1.5px solid #C0DD97; border-radius: 12px; padding: 14px; } .pbc-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; } .pbc-label { font-size: 11px; font-weight: 700; color: #3B6D11; letter-spacing: .06em; text-transform: uppercase; flex: 1; } .pbc-pts { font-size: 10px; background: #EAF3DE; color: #3B6D11; padding: 2px 8px; border-radius: 20px; border: 1px solid #C0DD97; } .pbc-word { font-size: 28px; font-weight: 700; color: #173404; margin-bottom: 4px; } .pbc-hint { font-size: 11px; color: #639922; margin-bottom: 10px; } .pbc-desc { font-size: 13px; color: #27500A; line-height: 1.7; margin-bottom: 8px; } .pbc-tip { font-size: 12px; color: #3B6D11; padding-top: 8px; border-top: 0.5px solid #C0DD97; line-height: 1.6; }
 .phone-footer { text-align: center; padding: 24px 0 8px; font-size: 12px; color: #ccc; }
 .phone-seal { display: inline-block; background: #FAEEDA; color: #854F0B; font-size: 12px; font-weight: 600; padding: 6px 16px; border-radius: 20px; margin-bottom: 16px; }
 </style>
 </head>
 <body>
 
-<!-- ── 主控端 HTML（手機模式時由 JS 隱藏） ── -->
 <div id="admin-ui">
   <div class="container">
     <div class="header">
@@ -250,7 +165,9 @@ input[type=text]:focus, textarea:focus { border-color: #1D9E75; }
         <div class="score-row"><span>🕵️ 被成功套到（每題）</span><span class="sr">–1 分</span></div>
         <div class="score-row"><span>📖 對方察覺你傳的經節</span><span class="sg">+3 分</span></div>
         <div class="score-row"><span>📖 察覺對方傳來的經節</span><span class="sg">+2 分</span></div>
-        <div class="hint">💡 每人有兩個任務：臥底套話 ＋ 傳遞聖經經節。掃描 QR Code 即可在手機上看到完整任務卡。</div>
+        <div class="score-row"><span>🎯 觸發任務成功</span><span class="sg">+2 分</span></div>
+        <div class="score-row"><span>🔤 說出/察覺暗號詞</span><span class="sg">+1 分</span></div>
+        <div class="hint">💡 每人同時有四個任務：臥底套話、傳遞聖經、觸發任務、暗號任務。</div>
       </div>
     </div>
     <div id="step2" style="display:none">
@@ -266,11 +183,30 @@ input[type=text]:focus, textarea:focus { border-color: #1D9E75; }
     </div>
   </div>
 </div>
-
-<!-- 手機模式時動態填入 -->
 <div id="phone-ui" style="display:none"></div>
 
 <script>
+// ── 評分與標籤小幫手 ──────────────────────────────────────────────────
+function getQuestionTag(type) {
+  if (type === 'FQ') return '<span class="faith-mark">（信仰向）</span>';
+  if (type === 'PQ') return '<span class="faith-mark">（牧師向）</span>';
+  return '';
+}
+function getQuestionTagPhone(type) {
+  if (type === 'FQ') return '<span style="font-size:10px;opacity:.6">（信仰向）</span>';
+  if (type === 'PQ') return '<span style="font-size:10px;opacity:.6">（牧師向）</span>';
+  return '';
+}
+function getQuestionScore(q) {
+  return q.type === 'PQ' ? 3 : 2;
+}
+function calcMissionMaxPts(ms) {
+  let pts = 0;
+  if (ms) {
+    pts += ms.reduce((s, m) => s + (m.questions || []).reduce((s2, q) => s2 + getQuestionScore(q), 0), 0);
+  }
+  return pts + 8; // 傳遞(+3) + 察覺(+2) + 觸發(+2) + 暗號(+1)
+}
 // ── 資料 ──────────────────────────────────────────────────────────────
 const LQ = [
   {q:'有什麼很少人知道的興趣或技能',ban:'你有什麼興趣？'},
@@ -600,39 +536,87 @@ function pickFrom(bank, used, count) {
 function buildMissions(members) {
   const pastor = members.find(m => m.isPastor);
   const others = members.filter(m => !m.isPastor);
-  const used = {}; members.forEach(m => { used[m.id] = {l:[],f:[],p:[]}; });
-  const tc = {}; members.forEach(m => { tc[m.id] = 0; });
-  const asgn = {}; members.forEach(m => { asgn[m.id] = []; });
+  const used = {};
+  members.forEach(m => { used[m.id] = { l: [], f: [], p: [] }; });
+  const tc = {};
+  members.forEach(m => { tc[m.id] = 0; });
+  const asgn = {};
+  members.forEach(m => { asgn[m.id] = []; });
+
   if (pastor) {
     others.forEach(m => { asgn[m.id].push(pastor.id); tc[pastor.id]++; });
-    shuffle(others).slice(0, Math.min(3, others.length)).forEach(t => { asgn[pastor.id].push(t.id); tc[t.id]++; });
-  }
-  for (const person of members) {
-    const need = pastor ? (person.isPastor ? 3 : 2) : 3;
-    const pool = members.filter(m => m.id !== person.id && !asgn[person.id].includes(m.id)).sort((a,b) => tc[a.id]-tc[b.id]);
-    pool.slice(0, need - asgn[person.id].length).forEach(t => { asgn[person.id].push(t.id); tc[t.id]++; });
-  }
-  const NC = ['teal','purple','blue'];
-  const result = {};
-  for (const person of members) {
-    let ci = 0;
-    result[person.id] = asgn[person.id].map(tid => {
-      const target = members.find(m => m.id === tid);
-      const isPastor = target.isPastor;
-      const u = used[tid];
-      let q1, q2;
-      if (isPastor) {
-        const pp = pickFrom(PQ, u.p, 1)[0], fp = pickFrom(FQ, u.f, 1)[0];
-        q1 = pp ? {...pp.q} : null; q2 = fp ? {...fp.q} : null;
-        if (pp) u.p.push(pp.i); if (fp) u.f.push(fp.i);
-      } else {
-        const lp = pickFrom(LQ, u.l, 1)[0], fp = pickFrom(FQ, u.f, 1)[0];
-        q1 = lp ? {...lp.q} : null; q2 = fp ? {...fp.q} : null;
-        if (lp) u.l.push(lp.i); if (fp) u.f.push(fp.i);
-      }
-      return { target, isPastor, q1, q2, color: isPastor ? 'amber' : NC[ci++ % NC.length] };
+    shuffle(others).slice(0, Math.min(3, others.length)).forEach(t => {
+      asgn[pastor.id].push(t.id); tc[t.id]++;
     });
   }
+
+  for (const person of members) {
+    const need = 3;
+    const pool = members
+      .filter(m => m.id !== person.id && !asgn[person.id].includes(m.id))
+      .sort((a, b) => tc[a.id] - tc[b.id]);
+    pool.slice(0, need - asgn[person.id].length).forEach(t => {
+      asgn[person.id].push(t.id); tc[t.id]++;
+    });
+  }
+
+  const NC = ['teal', 'purple', 'blue'];
+  const result = {};
+
+  for (const person of members) {
+    let ci = 0;
+    let normalIdx = 0;
+
+    result[person.id] = asgn[person.id].map(tid => {
+      const target = members.find(m => m.id === tid);
+      const isPastorTarget = target.isPastor;
+      const u = used[tid];
+      let questions = [];
+
+      if (isPastorTarget) {
+        const pp = pickFrom(PQ, u.p, 2);
+        const lp = pickFrom(LQ, u.l, 2);
+        const fp = pickFrom(FQ, u.f, 2);
+        questions = [
+          ...pp.map(x => ({ ...x.q, type: 'PQ' })),
+          ...lp.map(x => ({ ...x.q, type: 'LQ' })),
+          ...fp.map(x => ({ ...x.q, type: 'FQ' })),
+        ];
+        pp.forEach(x => u.p.push(x.i));
+        lp.forEach(x => u.l.push(x.i));
+        fp.forEach(x => u.f.push(x.i));
+      } else if (person.isPastor) {
+        const lp = pickFrom(LQ, u.l, 2);
+        const fp = pickFrom(FQ, u.f, 2);
+        questions = [
+          ...lp.map(x => ({ ...x.q, type: 'LQ' })),
+          ...fp.map(x => ({ ...x.q, type: 'FQ' })),
+        ];
+        lp.forEach(x => u.l.push(x.i));
+        fp.forEach(x => u.f.push(x.i));
+      } else {
+        const lCount = normalIdx === 0 ? 2 : 1;
+        const fCount = normalIdx === 0 ? 1 : 2;
+        const lp = pickFrom(LQ, u.l, lCount);
+        const fp = pickFrom(FQ, u.f, fCount);
+        questions = [
+          ...lp.map(x => ({ ...x.q, type: 'LQ' })),
+          ...fp.map(x => ({ ...x.q, type: 'FQ' })),
+        ];
+        lp.forEach(x => u.l.push(x.i));
+        fp.forEach(x => u.f.push(x.i));
+        normalIdx++;
+      }
+
+      return {
+        target,
+        isPastor: isPastorTarget,
+        questions,
+        color: isPastorTarget ? 'amber' : NC[ci++ % NC.length]
+      };
+    });
+  }
+
   return result;
 }
 
@@ -675,14 +659,9 @@ const MODE = urlParams.has('m') ? 'phone' : 'admin';
 // ════════════════════════════════════════════════════════════════════════
 if (MODE === 'phone') {
   document.title = '我的任務卡';
+  document.body.style.background = '#f5f4f0';
 
   window.addEventListener('DOMContentLoaded', () => {
-    // 隱藏主控端，顯示手機端
-    document.getElementById('admin-ui').style.display = 'none';
-    const phoneUI = document.getElementById('phone-ui');
-    phoneUI.style.display = 'block';
-
-    // 從 URL 解析參數
     const membersRaw = JSON.parse(decodeURIComponent(urlParams.get('members') || '[]'));
     const seed = urlParams.get('seed') || '';
     const myId = parseInt(urlParams.get('m'));
@@ -690,39 +669,37 @@ if (MODE === 'phone') {
     setSeed(seed);
     const missions = buildMissions(membersRaw);
     const { verseOut, verseIn } = buildVerses(membersRaw);
-    const bonusOut = buildBonusTasks(membersRaw);
+    const bonusOut = buildBonusTasks(membersRaw); // 修復遺漏
 
     const me = membersRaw.find(m => m.id === myId);
-    if (!me) { phoneUI.innerHTML = '<div style="padding:40px;text-align:center;color:#c0392b;">找不到任務資料，請重新掃描。</div>'; return; }
+    if (!me) { document.getElementById('phone-ui').innerHTML = '<div style="padding:40px;text-align:center;color:#c0392b;">找不到任務資料，請重新掃描。</div>'; return; }
 
     const ms = missions[myId] || [];
     const vo = verseOut[myId];
     const bonus = bonusOut[myId];
     const targetM = vo ? membersRaw.find(m => m.id === vo.targetId) : null;
     const senderM = verseIn[myId] ? membersRaw.find(m => m.id === verseIn[myId]) : null;
-    const maxPts = ms.reduce((s,m) => s + (m.isPastor ? 6 : 4), 0) + 8;
+    const maxPts = calcMissionMaxPts(ms); // 修復遺漏
 
-    const triggerHtml = `
+    const phoneUI = document.getElementById('phone-ui');
+    document.getElementById('admin-ui').style.display = 'none';
+    phoneUI.style.display = 'block';
+
+    const triggerHtml = bonus ? `
       <div class="phone-bonus-trigger">
-        <div class="pbt-header">
-          <div class="pbt-label">🎯 觸發任務</div>
-          <div class="pbt-pts">成功 +2</div>
-        </div>
+        <div class="pbt-header"><div class="pbt-label">🎯 觸發任務</div><div class="pbt-pts">成功 +2</div></div>
         <div class="pbt-name">${bonus.trigger.name}</div>
         <div class="pbt-desc">${bonus.trigger.desc}</div>
         <div class="pbt-tip">💡 ${bonus.trigger.tip}</div>
-      </div>`;
-    const codewordHtml = `
+      </div>` : '';
+    const codewordHtml = bonus ? `
       <div class="phone-bonus-codeword">
-        <div class="pbc-header">
-          <div class="pbc-label">🔤 暗號任務</div>
-          <div class="pbc-pts">說出 +1・抓到別人 +1</div>
-        </div>
+        <div class="pbc-header"><div class="pbc-label">🔤 暗號任務</div><div class="pbc-pts">說出 +1・抓到別人 +1</div></div>
         <div class="pbc-word">${bonus.codeword.word}</div>
         <div class="pbc-hint">類別：${bonus.codeword.hint}</div>
         <div class="pbc-desc">在走路對話中自然說出這個詞。任何人察覺並說「你說暗號了！」——你們兩人各得 +1 分。</div>
         <div class="pbc-tip">💡 同時留意別人——你抓到別人的暗號詞也得 +1。</div>
-      </div>`;
+      </div>` : '';
 
     phoneUI.innerHTML = `
       <div class="phone-wrap">
@@ -735,20 +712,26 @@ if (MODE === 'phone') {
 
         <div class="phone-section">
           <div class="phone-sec-title">🕵️ 臥底任務</div>
-          ${ms.map((m, i) => `
-            <div class="phone-target pt-${m.color}">
-              <div class="phone-target-header">
-                <div class="phone-target-num">目標 ${i+1}${m.isPastor ? ' ★' : ''}</div>
-                <div class="phone-target-name">${m.target.name}</div>
-                <div class="phone-target-pts">${m.isPastor ? '+3 ★' : '+2'} 分</div>
-              </div>
-              ${m.q1 ? `<div class="phone-q"><div class="phone-q-dot"></div><div>${m.q1.q}</div></div>` : ''}
-              ${m.q2 ? `<div class="phone-q"><div class="phone-q-dot"></div><div>${m.q2.q} <span style="font-size:10px;opacity:.6">（信仰向）</span></div></div>` : ''}
-              <div class="phone-ban">
-                <b>⛔ 禁直接問：</b>${[m.q1?.ban, m.q2?.ban].filter(Boolean).join('・')}
-              </div>
-            </div>
-          `).join('')}
+          ${ms.map((m, i) => {
+            const targetPts = (m.questions || []).reduce((s, q) => s + getQuestionScore(q), 0);
+            return `
+              <div class="phone-target pt-${m.color}">
+                <div class="phone-target-header">
+                  <div class="phone-target-num">目標 ${i+1}${m.isPastor ? ' ★' : ''}</div>
+                  <div class="phone-target-name">${m.target.name}</div>
+                  <div class="phone-target-pts">最高 ${targetPts} 分</div>
+                </div>
+                ${(m.questions || []).map(q => `
+                  <div class="phone-q">
+                    <div class="phone-q-dot"></div>
+                    <div>${q.q} ${getQuestionTagPhone(q.type)}</div>
+                  </div>
+                `).join('')}
+                <div class="phone-ban">
+                  <b>⛔ 禁直接問：</b>${(m.questions || []).map(q => q.ban).filter(Boolean).join('・')}
+                </div>
+              </div>`;
+          }).join('')}
         </div>
 
         <div class="phone-section">
@@ -828,7 +811,6 @@ if (MODE === 'admin') {
     if (badge) badge.style.display = show ? 'inline-flex' : 'none';
   }
 
-  // ── 先把所有函數定義並掛到 window，再啟動 UI ──
   function addMember() {
     const inp = document.getElementById('name-input');
     const name = inp.value.trim();
@@ -864,7 +846,6 @@ if (MODE === 'admin') {
     else { warn.style.display = 'none'; }
   }
 
-  // 掛到 window 讓 onclick 能找到
   window.addMember = addMember;
   window.removeMember = removeMember;
   window.togglePastor = togglePastor;
@@ -903,7 +884,6 @@ if (MODE === 'admin') {
   window.regen = regen;
   window.goBack = goBack;
 
-  // 綁定 Enter 鍵 + 還原上次狀態
   window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('name-input').addEventListener('keypress', e => { if (e.key === 'Enter') addMember(); });
 
@@ -911,7 +891,6 @@ if (MODE === 'admin') {
     if (saved && members.length > 0) {
       renderList();
       if (saved.currentSeed) document.getElementById('seed-input').value = saved.currentSeed;
-
       if (saved.generated && currentSeed) {
         setSeed(currentSeed);
         missions = buildMissions(members);
@@ -935,12 +914,12 @@ if (MODE === 'admin') {
   }
 
   function makeURL(id) {
-    // 把成員資料壓進 URL，手機端重新計算
     const membersEncoded = encodeURIComponent(JSON.stringify(members));
     const base = location.href.split('?')[0];
     return `${base}?m=${id}&seed=${encodeURIComponent(currentSeed)}&members=${membersEncoded}`;
   }
 
+  // ── 完美還原隱藏版功能，相容新資料結構 ──
   function renderMissionBlock(id) {
     const member = members.find(m => m.id === id);
     const ms = missions[id] || [];
@@ -948,17 +927,19 @@ if (MODE === 'admin') {
     const bonus = bonusOut[id];
     const targetM = vo ? members.find(m => m.id === vo.targetId) : null;
     const senderM = verseIn[id] ? members.find(m => m.id === verseIn[id]) : null;
-    const maxPts = ms.reduce((s, m) => s + (m.isPastor ? 6 : 4), 0) + 8;
+    const maxPts = calcMissionMaxPts(ms);
 
     const blocks = ms.map((m, i) => {
       const label = m.isPastor ? `目標 ${i+1} ★` : `目標 ${i+1}`;
-      const pts = m.isPastor ? '+3 ★' : '+2';
-      const q1h = m.q1 ? `<div class="q-row"><div class="q-dot"></div><div>${m.q1.q}</div></div>` : '';
-      const q2h = m.q2 ? `<div class="q-row"><div class="q-dot"></div><div>${m.q2.q} <span class="faith-mark">（信仰向）</span></div></div>` : '';
-      const bans = [m.q1?.ban, m.q2?.ban].filter(Boolean).map(b => `<span class="ban-tag">${b}</span>`).join(' ');
+      const targetPts = (m.questions || []).reduce((s, q) => s + getQuestionScore(q), 0);
+      const qsHtml = (m.questions || []).map(q => {
+         return `<div class="q-row"><div class="q-dot"></div><div>${q.q} ${getQuestionTag(q.type)}</div></div>`;
+      }).join('');
+      const bans = (m.questions || []).map(q => q.ban).filter(Boolean).map(b => `<span class="ban-tag">${b}</span>`).join(' ');
+
       return `<div class="tb tb-${m.color}">
-        <div class="tb-top"><div class="tb-label">${label}</div><div class="tb-name">${m.target.name}</div><div class="tb-pts">${pts} 分</div></div>
-        ${q1h}${q2h}
+        <div class="tb-top"><div class="tb-label">${label}</div><div class="tb-name">${m.target.name}</div><div class="tb-pts">最高 ${targetPts} 分</div></div>
+        ${qsHtml}
         <div class="ban">⛔ 禁止直接問：${bans}</div>
       </div>`;
     }).join('');
@@ -1021,7 +1002,7 @@ if (MODE === 'admin') {
         <div class="qr-sub">請讓 ${member.name} 用手機掃描下方 QR Code</div>
         <div class="qr-box" id="qrbox-${id}"></div>
         <div class="qr-note">掃描後手機會直接顯示任務，其他人不要偷看 👀<br>如果掃描失敗，改用下方「複製連結」</div>
-        <button class="copy-btn" style="margin-bottom:6px;" id="copy-url-btn" onclick="copyURL(${id})">🔗 複製任務連結（傳 LINE 也可以）</button>
+        <button class="copy-btn" id="copy-url-btn" onclick="copyURL(${id})">🔗 複製任務連結（傳 LINE 也可以）</button>
 
         <button class="toggle-btn" id="toggle-btn-${id}" onclick="toggleMission(${id})">
           👁️ 展開文字版任務（QR Code 失效時備用）
